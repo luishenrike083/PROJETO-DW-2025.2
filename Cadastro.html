@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<style>
+      /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+      background-color: #000;
+    }
+     /* CONTATO */
+    .cadastro {
+      background: url("imagem/fundo_contato.png") no-repeat center center/cover; 
+      color: #fff;
+      padding: 80px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    /* Logo da seção contato */
+    .cadastro .form-container img {
+      width: 120px;   
+      height: auto;   
+      margin-bottom: 20px; 
+      display: block;
+      margin: 0 auto 20px auto; 
+    }
+
+    .cadastro h1 {
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .form-container {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1px solid #fff; /* apenas linha inferior */
+      background: transparent;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #ddd;
+    }
+
+    .telefone-box {
+      display: flex;
+      gap: 15px;
+    }
+
+    .codigo select {
+      width: 100%;
+    }
+
+    .codigo {
+      flex: 1;
+    }
+
+    .telefone {
+      flex: 2;
+    }
+
+    label {
+      font-size: 14px;
+      text-align: left;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    textarea {
+      resize: none;
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background: #fff;
+      color: #0b58a0;
+    }
+    .p1 {
+        font-size: 50px;
+    }
+
+</style>
+<body>
+   <section class="cadastro" id="cadastro">
+    <div class="form-container">
+      <img src="imagem/logo.png" alt="Logo TechSync">
+      <h1>CADASTRE-SE</h1>
+      <form>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="senha">Senha</label>
+        <input type="text" id="senha" name="senha" required>
+        <p1 style="color:red"; font-size="5px";>A senha deve conter um caractere especial, uma letra maiúscula e minúscula e um número</p1>
+
+        <div class="telefone-box">
+          <div class="codigo">
+            <label for="codigo">Código</label>
+            <select id="codigo" name="codigo">
+              <option value="+55">BR +55</option>
+              <option value="+1">US +1</option>
+              <option value="+52">MX +52</option>
+              <option value="+54">AR +54</option>
+              <option value="+44">GB +44</option>
+              <option value="+351">PT +351</option>
+              <option value="+49">DE +49</option>
+              <option value="+33">FR +33</option>
+              <option value="+86">CN +86</option>
+              <option value="+7">RU +7</option>
+              <option value="+81">JP +81</option>
+            </select>
+          </div>
+          <div class="telefone">
+            <label for="telefone">Telefone/WhatsApp</label>
+            <input type="tel" id="telefone" name="telefone" required>
+          </div>
+        </div>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+</section>
+
+<script type="module">
+  import { create } from './js/services/api.js';
+
+  const form = document.querySelector('form');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Impede a página de recarregar
+
+    // Captura os valores dos campos
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const codigo = document.getElementById('codigo').value;
+    const telefone = document.getElementById('telefone').value;
+
+    // Cria o objeto do usuário
+    const novoUsuario = {
+      nome: nome,
+      email: email,
+      senha: senha,
+      telefoneCompleto: `${codigo} ${telefone}`
+    };
+
+    try {
+      // Envia para o db.json na coleção 'usuarios'
+      await create('usuarios', novoUsuario);
+      
+      alert('Cadastro realizado com sucesso!');
+      form.reset(); // Limpa os campos do formulário
+
+    } catch (error) {
+      console.error('Erro no cadastro:', error);
+      alert('Erro ao realizar cadastro. Verifique se o json-server está rodando.');
+    }
+  });
+</script>
+</body>
+</html>
+</body>
+</html>
