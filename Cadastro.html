@@ -1,77 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>TechSync - Cadastro</title>
+    <link rel="icon" href="imagem/logo_roxo.png">
 </head>
 <style>
-      /* RESET */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html {
-        scroll-behavior: smooth;
-    }
-
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: #fff;
-      background-color: #000;
-    }
-     /* CONTATO */
-    .cadastro {
-      background: url("imagem/fundo_contato.png") no-repeat center center/cover; 
-      color: #fff;
-      padding: 80px 20px;
+      background: url("imagem/fundo_roxo.png") no-repeat center center/cover; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #333;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      padding: 20px 0; /* Adiciona um padding para rolagem em telas menores */
+    }
+
+    .cadastro-container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    .cadastro-box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
-
-    /* Logo da seção contato */
-    .cadastro .form-container img {
-      width: 120px;   
-      height: auto;   
-      margin-bottom: 20px; 
-      display: block;
-      margin: 0 auto 20px auto; 
+    
+    .cadastro-box img {
+      width: 80px;
+      margin-bottom: 15px;
     }
 
-    .cadastro h1 {
-      font-size: 40px;
-      font-weight: bold;
-      margin-bottom: 30px;
-    }
-    .form-container {
-      width: 100%;
-      max-width: 450px;
+    .cadastro-box h1 {
+      font-size: 2rem;
+      color: #5329eb;
+      margin-bottom: 25px;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      gap: 15px;
+      text-align: left;
     }
 
-    input, select, textarea {
+    input, select {
       width: 100%;
-      padding: 10px 0;
-      border: none;
-      border-bottom: 1px solid #fff; /* apenas linha inferior */
-      background: transparent;
-      color: #fff;
-      font-size: 16px;
-      outline: none;
-    }
-
-    input::placeholder, textarea::placeholder {
-      color: #ddd;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
     }
 
     .telefone-box {
@@ -79,95 +69,93 @@
       gap: 15px;
     }
 
-    .codigo select {
-      width: 100%;
-    }
-
     .codigo {
       flex: 1;
     }
 
-    .telefone {
+    .telefone-input {
       flex: 2;
     }
 
     label {
-      font-size: 14px;
-      text-align: left;
+      font-size: 0.9rem;
+      font-weight: bold;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    textarea {
-      resize: none;
-      min-height: 80px;
+    .senha-info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
     }
 
     button {
-      margin-top: 20px;
       padding: 12px;
-      background: transparent;
+      border: none;
+      background: #5329eb;
       color: #fff;
-      border: 1px solid #fff;
-      border-radius: 25px;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
-      transition: all 0.3s;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
     }
 
     button:hover {
-      background: #fff;
-      color: #0b58a0;
-    }
-    .p1 {
-        font-size: 50px;
+      background: #e25b88;
     }
 
+    .login-link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
 </style>
 <body>
-   <section class="cadastro" id="cadastro">
-    <div class="form-container">
-      <img src="imagem/logo.png" alt="Logo TechSync">
-      <h1>CADASTRE-SE</h1>
+  <div class="cadastro-container">
+    <div class="cadastro-box">
+      <img src="imagem/logo_roxo.png" alt="Logo TechSync">
+      <h1>Cadastre-se</h1>
       <form>
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" name="nome" required>
+        <div>
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+        </div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+        </div>
 
-        <label for="senha">Senha</label>
-        <input type="text" id="senha" name="senha" required>
-        <p1 style="color:red"; font-size="5px";>A senha deve conter um caractere especial, uma letra maiúscula e minúscula e um número</p1>
+        <div>
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" placeholder="Crie uma senha forte" required>
+          <p class="senha-info">Use 8+ caracteres com letras, números e símbolos.</p>
+        </div>
 
         <div class="telefone-box">
           <div class="codigo">
-            <label for="codigo">Código</label>
+            <label for="codigo">País</label>
             <select id="codigo" name="codigo">
               <option value="+55">BR +55</option>
               <option value="+1">US +1</option>
-              <option value="+52">MX +52</option>
-              <option value="+54">AR +54</option>
-              <option value="+44">GB +44</option>
               <option value="+351">PT +351</option>
-              <option value="+49">DE +49</option>
-              <option value="+33">FR +33</option>
-              <option value="+86">CN +86</option>
-              <option value="+7">RU +7</option>
-              <option value="+81">JP +81</option>
+              <option value="+44">GB +44</option>
+              <!-- Adicione outros códigos conforme necessário -->
             </select>
           </div>
-          <div class="telefone">
+          <div class="telefone-input">
             <label for="telefone">Telefone/WhatsApp</label>
-            <input type="tel" id="telefone" name="telefone" required>
+            <input type="tel" id="telefone" name="telefone" placeholder="Apenas números" required>
           </div>
         </div>
 
         <button type="submit">Enviar</button>
+        <p class="login-link">Já tem uma conta? <a href="login2.html">Faça login</a></p>
       </form>
     </div>
-  </section>
-</section>
+  </div>
 
 <script type="module">
   import { create } from './js/services/api.js';
@@ -205,7 +193,5 @@
     }
   });
 </script>
-</body>
-</html>
 </body>
 </html>
