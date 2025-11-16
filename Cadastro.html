@@ -14,14 +14,23 @@
     }
 
     body {
-      background: url("imagem/fundo_roxo.png") no-repeat center center/cover; 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: #333;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px 0; /* Adiciona um padding para rolagem em telas menores */
+      padding: 20px 0;
+    }
+
+    .video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    z-index: -1; 
     }
 
     .cadastro-container {
@@ -47,6 +56,7 @@
       font-size: 2rem;
       color: #5329eb;
       margin-bottom: 25px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     form {
@@ -113,6 +123,9 @@
     }
 </style>
 <body>
+    <video class="video-background" autoplay muted loop playsinline>
+        <source src="imagem/Video Project 3.mp4" type="video/mp4">
+    </video>
   <div class="cadastro-container">
     <div class="cadastro-box">
       <img src="imagem/logo_roxo.png" alt="Logo TechSync">
@@ -152,7 +165,7 @@
         </div>
 
         <button type="submit">Enviar</button>
-        <p class="login-link">Já tem uma conta? <a href="login2.html">Faça login</a></p>
+        <p class="login-link" style="font-size: 12px;"><b>Já tem uma conta? <a href="login.html">Faça login</a></p>
       </form>
     </div>
   </div>
