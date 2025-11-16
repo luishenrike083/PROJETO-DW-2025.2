@@ -7,6 +7,17 @@
     <link rel="icon" href="imagem/logo.png">
 </head>
 <style>
+
+    :root {
+        --cor-principal: #6a61ff; 
+        --cor-fundo-box: #20202a;
+        --cor-texto-primario: #e1e1e6;
+        --cor-texto-secundario: #dbdbe8;
+        --cor-destaque: #ff79c6; 
+        --cor-borda: #383842; 
+        --sombra-suave: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -15,12 +26,12 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #333;
+      color: var(--cor-texto-primario);
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px 0; /* Adiciona um padding para rolagem em telas menores */
+      padding: 20px 0;
     }
 
     .video-background {
@@ -40,10 +51,10 @@
     }
 
     .cadastro-box {
-      background: #fff;
+      background: var(--cor-fundo-box);
       padding: 40px;
       border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 15px var(--sombra-suave);
       text-align: center;
     }
     
@@ -54,9 +65,9 @@
 
     .cadastro-box h1 {
       font-size: 2rem;
-      color: #5329eb;
+      color: var(--cor-principal);
       margin-bottom: 25px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      text-shadow: 2px 2px 4px var(--sombra-suave);
     }
 
     form {
@@ -69,9 +80,11 @@
     input, select {
       width: 100%;
       padding: 12px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--cor-borda);
       border-radius: 5px;
       font-size: 1rem;
+      background-color: var(--cor-fundo-box);
+      color: var(--cor-texto-primario);
     }
 
     .telefone-box {
@@ -96,15 +109,15 @@
 
     .senha-info {
       font-size: 12px;
-      color: #666;
+      color: var(--cor-texto-secundario);
       margin-top: 5px;
     }
 
     button {
       padding: 12px;
       border: none;
-      background: #5329eb;
-      color: #fff;
+      background: var(--cor-principal);
+      color: var(--cor-texto-primario);
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
@@ -114,7 +127,9 @@
     }
 
     button:hover {
-      background: #e25b88;
+      background: var(--cor-destaque);
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px var(--cor-destaque);
     }
 
     .login-link {
@@ -155,7 +170,6 @@
               <option value="+1">US +1</option>
               <option value="+351">PT +351</option>
               <option value="+44">GB +44</option>
-              <!-- Adicione outros códigos conforme necessário -->
             </select>
           </div>
           <div class="telefone-input">
@@ -176,16 +190,14 @@
   const form = document.querySelector('form');
 
   form.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Impede a página de recarregar
+    event.preventDefault();
 
-    // Captura os valores dos campos
     const nome = document.getElementById('nome').value;
     const email = document.getElementById('email').value;
     const senha = document.getElementById('senha').value;
     const codigo = document.getElementById('codigo').value;
     const telefone = document.getElementById('telefone').value;
 
-    // Cria o objeto do usuário
     const novoUsuario = {
       nome: nome,
       email: email,
@@ -194,11 +206,10 @@
     };
 
     try {
-      // Envia para o db.json na coleção 'usuarios'
       await create('usuarios', novoUsuario);
       
       alert('Cadastro realizado com sucesso!');
-      form.reset(); // Limpa os campos do formulário
+      form.reset();
 
     } catch (error) {
       console.error('Erro no cadastro:', error);
