@@ -218,7 +218,7 @@
       width: 100%; padding: 10px; 
       border: 1px solid var(--cor-borda);
       border-radius: 5px; 
-      background: #121214; /* Fundo do input bem escuro */
+      background: #121214;
       color: #fff;
     }
     #addDeviceForm input:focus, #addDeviceForm select:focus {
@@ -242,13 +242,15 @@
 
   <div class="dashboard" id="dashboard">
     <aside class="sidebar">
-      <img src="imagem/logo.png" alt="Logo TechSync">
-      <h2>TechSync</h2>
+      <a href="login.html" id="logoutLinkDispositivos" style="text-decoration: none; display: block; cursor: pointer;">
+        <img src="imagem/logo.png" alt="Logo TechSync">
+        <h2>TechSync</h2>
+      </a>
       <ul>
         <li><a href="techSyncD.html"> Dashboard</a></li>
         <li><a href="#" class="active"> Dispositivos</a></li>
-        <li><a href="#"> Relatórios</a></li>
-        <li><a href="#"> Configurações</a></li>
+        <li><a href="relatorio.html"> Relatórios</a></li>
+        <li><a href="configuracao.html"> Configurações</a></li>
       </ul>
     </aside>
 
@@ -334,7 +336,7 @@
     
     // Configuração
     const API_ENDPOINT = 'http://localhost:3000/dispositivos'; 
-    const ROTA_API = 'dispositivos'; // Rota usada na função 'create'
+    const ROTA_API = 'dispositivos';
     
     const modalOverlay = document.getElementById('deviceModalOverlay');
     const addDeviceForm = document.getElementById('addDeviceForm'); 
@@ -343,8 +345,6 @@
     const totalDevicesEl = document.getElementById('totalDevices');
     const onlineDevicesEl = document.getElementById('onlineDevices');
     const alertDevicesEl = document.getElementById('alertDevices');
-    
-    // VARIÁVEL INTUITIVA PARA A BUSCA
     const inputPesquisa = document.getElementById('inputPesquisaDispositivo');
 
 
@@ -424,10 +424,8 @@
     }
 
     function filtrarDispositivos() {
-        // Pega o texto de pesquisa e converte para maiúsculas para buscar melhor
         const textoFiltro = inputPesquisa.value.toUpperCase();
         
-        // Obtém todas as linhas do corpo da tabela
         const linhasTabela = deviceTableBody.getElementsByTagName('tr');
 
         for (let i = 0; i < linhasTabela.length; i++) {
@@ -440,10 +438,8 @@
                 const celulaAtual = celulas[j];
                 
                 if (celulaAtual) {
-                    // Pega o conteúdo da célula
                     const textoCelula = celulaAtual.textContent || celulaAtual.innerText;
                     
-                    // Verifica se o texto da célula contém o texto do filtro
                     if (textoCelula.toUpperCase().indexOf(textoFiltro) > -1) {
                         encontrouCorrespondencia = true;
                         break;
@@ -460,6 +456,9 @@
         }
     }
 
+    document.getElementById('logoutLinkDispositivos').addEventListener('click', function() {
+        localStorage.removeItem('usuarioLogadoNome');
+    });
 
     document.querySelector('.btn-add-device').addEventListener('click', openModal);
     document.querySelector('.close-modal').addEventListener('click', closeModal);

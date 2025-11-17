@@ -16,48 +16,9 @@
     }
   ],
   "contatos": [
-    {}
+    
   ],
   "dispositivos": [
-    {
-      "id": "7890",
-      "nome": "gil bala",
-      "tipo": "gordo",
-      "ip": "999.999.999.999",
-      "status": "Online",
-      "ultimaAtualizacao": "agora mesmo"
-    },
-    {
-      "id": "4af8",
-      "nome": "hugo",
-      "tipo": "lagarto",
-      "ip": "111.111.111.111",
-      "status": "Online",
-      "ultimaAtualizacao": "agora mesmo"
-    },
-    {
-      "id": "c3c2",
-      "nome": "jao",
-      "tipo": "boy",
-      "ip": "-999.-999.-999",
-      "status": "Alerta",
-      "ultimaAtualizacao": "20:18:22"
-    },
-    {
-      "id": "44a8",
-      "nome": "felipe",
-      "tipo": "ze buceta",
-      "ip": "000.000.000.000",
-      "status": "Online",
-      "ultimaAtualizacao": "20:31:05"
-    },
-    {
-      "id": "4a0f",
-      "nome": "tx",
-      "tipo": "sport",
-      "ip": "5x1.5x1.5x1.5x1",
-      "status": "Offline",
-      "ultimaAtualizacao": "21:42:31"
-    }
+
   ]
 }

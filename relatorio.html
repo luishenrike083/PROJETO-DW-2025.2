@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechSync - Relatórios (Dark Mode)</title>
+  <link rel="icon" href="imagem/logo.png">
+  <style>
+    :root {
+        --cor-principal: #6a61ff; 
+        --cor-fundo-card: #20202a;
+        --cor-fundo-sidebar: #272734;
+        
+        --cor-texto-primario: #e1e1e6;
+        --cor-texto-secundario: #dbdbe8;
+        
+        --cor-destaque: #ff79c6;
+        --cor-borda: #383842;
+
+        --status-online: #50fa7b;
+        --status-offline: #ff5555;
+        --status-alerta: #f1fa8c;
+
+        --sombra-suave: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+        --cor-grafico-1: #50fa7b; 
+        --cor-grafico-2: #ff79c6; 
+        --cor-grafico-3: #f1fa8c; 
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: url("imagem/fundo_roxo.png") no-repeat center center/cover; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #121214;
+      color: var(--cor-texto-primario);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    h2, h3 { font-weight: 700; margin-top: 0; }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        font-family: inherit;
+    }
+    .btn-principal {
+        background-color: var(--cor-principal);
+        color: #fff;
+    }
+    .btn-principal:hover {
+        background-color: var(--cor-destaque);
+        transform: translateY(-2px);
+        box-shadow: 0 0 10px var(--cor-destaque);
+    }
+
+    .dashboard { display: flex; height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: var(--cor-fundo-sidebar); 
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+      border-right: 1px solid var(--cor-borda);
+    }
+    .sidebar h2 { 
+      font-size: 40px; 
+      text-align: center; 
+      margin-bottom: 20px; 
+      color: var(--cor-principal); 
+      -webkit-text-stroke-width: 0; 
+      text-shadow: 0 0 10px rgba(106, 97, 255, 0.3);
+    }
+    .sidebar img { width: 100px; display: block; margin: 0 auto 20px auto; }
+
+    .sidebar ul { list-style: none; }
+    .sidebar ul li { margin: 15px 0; font-size: 20px; }
+    .sidebar ul li a {
+      color: var(--cor-texto-secundario);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .sidebar ul li a:hover { color: var(--cor-destaque); text-shadow: 0 0 7px var(--cor-destaque);}
+    .sidebar ul li a.active { color: var(--cor-destaque); font-weight: 700; }
+
+    /* Main */
+    .main { flex: 1; display: flex; flex-direction: column; }
+
+    /* Header */
+    .header {
+      background-color: rgba(18, 18, 20, 0.7);
+      backdrop-filter: blur(5px); 
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+    
+    .header .user { color: var(--cor-texto-primario); font-weight: 600;}
+    
+    .search input {
+      padding: 10px;
+      border: 1px solid var(--cor-borda);
+      border-radius: 5px;
+      width: 250px;
+      background-color: var(--cor-fundo-card);
+      color: var(--cor-texto-primario);
+    }
+    .search input::placeholder { color: var(--cor-texto-secundario); }
+
+    .header-actions-left { display: flex; align-items: center; gap: 15px; }
+
+    .content { padding: 30px; flex: 1; overflow-y: auto; }
+
+    .componente-container {
+        background-color: var(--cor-fundo-card);
+        color: var(--cor-texto-primario);
+        padding: 25px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: var(--sombra-suave);
+        border: 1px solid var(--cor-borda);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .componente-container:hover {
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 10px var(--cor-destaque);
+        transform: translateY(-5px);
+        cursor: pointer
+    }
+    .componente-container h3 { 
+        margin-bottom: 15px; 
+        color: var(--cor-principal); 
+        font-size: 1.5rem;
+    }
+
+    .cards-relatorio {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .card-metrica h4 { 
+        font-size: 1rem; 
+        color: var(--cor-texto-secundario); 
+        margin-bottom: 5px; 
+    }
+    .card-metrica p { 
+        font-size: 2rem; 
+        font-weight: bold; 
+        color: var(--cor-texto-primario); 
+    }
+
+    .graficos-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .grafico-placeholder {
+        height: 250px;
+        background-color: #292933;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        color: var(--cor-texto-secundario);
+        border: 1px dashed var(--cor-borda);
+    }
+    
+    .legenda-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        color: var(--cor-texto-secundario);
+    }
+    .legenda-cor {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        margin-right: 8px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="dashboard" id="dashboard">
+    <aside class="sidebar">
+      <a href="login.html" id="logoutLinkRelatorio" style="text-decoration: none; display: block; cursor: pointer;">
+        <img src="imagem/logo.png" alt="Logo TechSync">
+        <h2>TechSync</h2>
+      </a>
+      <ul>
+        <li><a href="techSyncD.html"> Dashboard</a></li>
+        <li><a href="Dispositivos.html"> Dispositivos</a></li>
+        <li><a href="#" class="active"> Relatórios</a></li>
+        <li><a href="configuracao.html"> Configurações</a></li>
+      </ul>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        
+        <div class="header-actions-left">
+          <div class="search">
+            <input type="text" placeholder="Filtro de Período (Ex: Últimos 30 dias)">
+          </div>
+          <button class="btn btn-principal">Gerar Relatório PDF</button>
+        </div>
+
+        <div class="user">👤 <span id="userNameDisplay"></span></div>
+      </div>
+
+      <div class="content">
+        <div class="cards-relatorio">
+          <div class="card-metrica componente-container">
+            <h4>Dispositivos Online (média)</h4>
+            <p>95.4%</p>
+          </div>
+          <div class="card-metrica componente-container">
+            <h4>Alertas Críticos (24h)</h4>
+            <p style="color: var(--status-alerta);">12</p>
+          </div>
+          <div class="card-metrica componente-container">
+            <h4>Tráfego de Dados (GB)</h4>
+            <p>458.2</p>
+          </div>
+          <div class="card-metrica componente-container">
+            <h4>Tempo Médio de Atividade (h)</h4>
+            <p>18.5</p>
+          </div>
+        </div>
+
+        <div class="graficos-container">
+            <div class="componente-container">
+                <h3>Dispositivos por Status</h3>
+                <div class="grafico-placeholder">
+                    
+                    Gráfico de Status
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="legenda-item"><div class="legenda-cor" style="background-color: var(--cor-grafico-1);"></div> Online</div>
+                    <div class="legenda-item"><div class="legenda-cor" style="background-color: var(--cor-destaque);"></div> Alerta</div>
+                    <div class="legenda-item"><div class="legenda-cor" style="background-color: var(--status-offline);"></div> Offline</div>
+                </div>
+            </div>
+
+            <div class="componente-container">
+                <h3>Tráfego de Rede (Últimas 7h)</h3>
+                <div class="grafico-placeholder">
+                    
+                    Gráfico de Linhas
+                </div>
+            </div>
+
+            <div class="componente-container">
+                <h3>Top 5 Dispositivos por Uso</h3>
+                <div class="grafico-placeholder">
+                    
+                    Gráfico de Barras
+                </div>
+            </div>
+        </div>
+
+        <div class="devices componente-container">
+            <h3>Relatório de Ocorrências Críticas</h3>
+            <p>Detalhes sobre os alertas de segurança e falhas de conexão nos últimos 7 dias.</p>
+            <table class="device-list">
+                <thead>
+                  <tr>
+                    <th>Data/Hora</th>
+                    <th>Dispositivo</th>
+                    <th>Tipo de Alerta</th>
+                    <th>Severidade</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody> 
+                    <tr>
+                        <td>2025-11-15 14:30</td>
+                        <td>Servidor Principal</td>
+                        <td style="color: var(--status-alerta);">Alta Latência</td>
+                        <td>Crítica</td>
+                        <td>Reinício Agendado</td>
+                    </tr>
+                    <tr>
+                        <td>2025-11-14 09:15</td>
+                        <td>Roteador Sala A</td>
+                        <td style="color: var(--status-offline);">Conexão Perdida</td>
+                        <td>Alta</td>
+                        <td>Verificação Manual</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <script type="module">
+    function displayUserName() {
+        const userName = localStorage.getItem('usuarioLogadoNome');
+        const userNameDisplay = document.getElementById('userNameDisplay');
+
+        if (userName) {
+            userNameDisplay.textContent = userName.charAt(0).toUpperCase() + userName.slice(1);
+        } else {
+            userNameDisplay.textContent = 'Admin'; 
+        }
+    }
+    // Função fictícia para carregar dados dos relatórios
+    function loadReportData() {
+        console.log('Carregando dados de relatórios...');
+    }
+
+    document.getElementById('logoutLinkRelatorio').addEventListener('click', function() {
+        localStorage.removeItem('usuarioLogadoNome');
+    });
+
+    displayUserName();
+    loadReportData();
+  </script>
+
+</body>
+</html>
