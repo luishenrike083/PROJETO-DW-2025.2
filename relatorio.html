@@ -263,9 +263,9 @@
           <button class="btn-toggle-sidebar" id="toggleSidebarBtn">☰</button>
           
           <div class="search">
-            <input type="text" placeholder="Filtro de Período (Ex: Últimos 30 dias)">
+            <input type="text" id="filtroPeriodo" placeholder="Filtro de Período (Ex: Últimos 30 dias)">
           </div>
-          <button class="btn btn-principal">Gerar Relatório PDF</button>
+          <button class="btn btn-principal" id="btnGerarPDF">Gerar Relatório PDF</button>
         </div>
 
         <div class="user">👤 <span id="userNameDisplay"></span></div>
@@ -357,10 +357,18 @@
     </main>
   </div>
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" 
+          integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" 
+          crossorigin="anonymous" 
+          referrerpolicy="no-referrer">
+  </script>
+
   <script type="module">
     // ADICIONADO
     const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
     const dashboard = document.getElementById('dashboard');
+    const btnGerarPDF = document.getElementById('btnGerarPDF'); // Novo ID
+    const inputFiltro = document.getElementById('filtroPeriodo'); // Novo ID para o input
 
     function displayUserName() {
         const userName = localStorage.getItem('usuarioLogadoNome');
@@ -372,10 +380,35 @@
             userNameDisplay.textContent = 'Admin'; 
         }
     }
-    // Função fictícia para carregar dados dos relatórios
+    
     function loadReportData() {
         console.log('Carregando dados de relatórios...');
     }
+    
+    // FUNÇÃO PARA GERAR O PDF (INTEGRADA)
+    function gerarRelatorioPDF() {
+        const element = document.querySelector('.content'); 
+        const filtro = inputFiltro.value.trim();
+        const nomeArquivo = filtro ? `Relatorio-TechSync-${filtro.replace(/\s/g, '-')}.pdf` : 'Relatorio-TechSync-Completo.pdf';
+
+        const opt = {
+            margin: 0.5,
+            filename: nomeArquivo,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        // Verifica se a biblioteca html2pdf está carregada
+        if (typeof html2pdf !== 'undefined') {
+            console.log(`Iniciando geração do PDF: ${nomeArquivo}`);
+            html2pdf().set(opt).from(element).save();
+        } else {
+            alert('A biblioteca de PDF ainda não foi carregada. Tente novamente em um instante.');
+            console.error('html2pdf não definida.');
+        }
+    }
+
 
     document.getElementById('logoutLinkRelatorio').addEventListener('click', function() {
         localStorage.removeItem('usuarioLogadoNome');
@@ -388,6 +421,10 @@
         });
     }
 
+    if (btnGerarPDF) {
+        btnGerarPDF.addEventListener('click', gerarRelatorioPDF);
+    }
+    
     displayUserName();
     loadReportData();
   </script>
