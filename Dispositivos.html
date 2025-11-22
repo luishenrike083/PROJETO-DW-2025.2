@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TechSync - Dispositivos (Dark Mode)</title>
+  <title>TechSync - Dispositivos</title>
   <link rel="icon" href="imagem/logo.png">
   <style>
     :root {
@@ -28,14 +28,14 @@
 
     body {
       background: url("imagem/fundo_roxo.png") no-repeat center center/cover; 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;      color: var(--cor-texto-primario);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--cor-texto-primario);
       height: 100vh;
       display: flex;
     }
     
     h2, h3 { font-weight: 700; margin-top: 0; }
 
-    /* Estilo do Botão Principal */
     .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -57,7 +57,7 @@
         box-shadow: 0 0 10px var(--cor-destaque);
     }
 
-    .dashboard { display: flex; height: 100%; flex: 1; } /* A altura de 100% aqui se refere ao body. */
+    .dashboard { display: flex; height: 100%; flex: 1; } 
 
     .sidebar {
       width: 220px;
@@ -66,7 +66,7 @@
       box-shadow: 2px 0 5px rgba(0,0,0,0.2);
       border-right: 1px solid var(--cor-borda);
       transition: width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
-      overflow: hidden; /* Esconde o conteúdo durante o fechamento */
+      overflow: hidden;
       white-space: nowrap;
     }
 
@@ -110,7 +110,6 @@
 
     .main { flex: 1; display: flex; flex-direction: column; }
 
-  
     .header {
       background-color: rgba(18, 18, 20, 0.7);
       backdrop-filter: blur(5px);
@@ -124,16 +123,6 @@
     
     .header .user { color: var(--cor-texto-primario); font-weight: 600;}
     
-    .search input {
-      padding: 10px;
-      border: 1px solid var(--cor-borda);
-      border-radius: 5px;
-      width: 250px;
-      background-color: var(--cor-fundo-card); /* Input escuro */
-      color: var(--cor-texto-primario);
-    }
-    .search input::placeholder { color: var(--cor-texto-secundario); }
-
     .header-actions-left { display: flex; align-items: center; gap: 15px;}
 
     .content { padding: 30px; flex: 1; overflow-y: auto;}
@@ -148,16 +137,7 @@
         border: 1px solid var(--cor-borda);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .componente-container:hover { 
-        box-shadow: 0 0 10px var(--cor-destaque);
-        cursor: pointer
-    }
-    .componente-container h3 { 
-        margin-bottom: 15px; 
-        color: var(--cor-principal); 
-        font-size: 24px;
-    }
-
+    
     .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -172,28 +152,35 @@
     .card h3 { color: var(--cor-texto-secundario); font-size: 19px; }
     .card p { font-size: 40px; font-weight: bold; color: var(--cor-texto-primario); }
 
-    .device-list {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
+    .devices-container {
+        display: flex;
+        flex-direction: column;
+        /* Removida altura fixa do container para deixar o wrapper comandar */
     }
-    .device-list th, .device-list td {
-        padding: 15px 15px;
-        text-align: left;
-        border-bottom: 1px solid var(--cor-borda);
-        color: var(--cor-texto-primario);
-    }
-    .device-list th {
-        background-color: #292933;
-        font-weight: 600;
-        color: var(--cor-principal);
-        border-radius: 5px 5px 0 0;
-    }
-    .device-list tr:hover { background-color: #2a2a35; } 
     
-    .status-online { color: var(--status-online); font-weight: bold; text-shadow: 0 0 5px rgba(80, 250, 123, 0.3);}
-    .status-offline { color: var(--status-offline); font-weight: bold; }
-    .status-alerta { color: var(--status-alerta); font-weight: bold; }
+    /* --- CORREÇÃO AQUI --- */
+    .grafana-wrapper {
+        width: 100%;
+        /* Usamos 75vh para garantir que o painel ocupe 75% da altura da tela */
+        height: 75vh; 
+        background-color: #1a1a24;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 15px;
+    }
+    
+    /* Garante que o iframe ocupe todo o espaço do wrapper */
+    .grafana-wrapper iframe {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .componente-container h3 { 
+        margin-bottom: 0; 
+        color: var(--cor-principal); 
+        font-size: 24px;
+    }
 
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -234,11 +221,6 @@
       background: #121214;
       color: #fff;
     }
-    #addDeviceForm input:focus, #addDeviceForm select:focus {
-        outline: none;
-        border-color: var(--cor-principal);
-    }
-
     #addDeviceForm button {
       background-color: var(--cor-principal);
       color: #fff;
@@ -268,12 +250,8 @@
 
     <main class="main">
       <div class="header">
-        
         <div class="header-actions-left">
           <button class="btn-toggle-sidebar" id="toggleSidebarBtn">☰</button>
-          <div class="search">
-            <input type="text" id="inputPesquisaDispositivo" placeholder="Pesquisar dispositivo...">
-          </div>
           <button class="btn btn-principal btn-add-device">+ Adicionar Dispositivo</button>
         </div>
 
@@ -281,6 +259,7 @@
       </div>
 
       <div class="content">
+        
         <div class="cards">
           <div class="card componente-container">
             <h3>Total de Dispositivos</h3>
@@ -296,23 +275,20 @@
           </div>
         </div>
 
-        <div class="devices componente-container">
-          <h3>Lista de Dispositivos Conectados</h3>
+        <div class="componente-container devices-container">
+          <h3>Lista de Dispositivos (Grafana)</h3>
           
-          <table class="device-list">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Endereço IP</th>
-                <th>Status</th>
-                <th>Última Atualização</th>
-              </tr>
-            </thead>
-            <tbody> 
-              </tbody>
-          </table>
+          <div class="grafana-wrapper">
+             <iframe 
+                src="http://192.168.56.102:3000/d-solo/adljsxw/lista-de-dispositivos?orgId=1&timezone=browser&theme=dark&panelId=panel-1&__feature.dashboardSceneSolo=true&refresh=30s" 
+                width="100%" 
+                height="100%" 
+                frameborder="0"
+                scrolling="yes">
+            </iframe>
+          </div>
         </div>
+
       </div>
     </main>
   </div>
@@ -320,30 +296,25 @@
   <div class="modal-overlay" id="deviceModalOverlay">
     <div class="modal-content">
       <span class="close-modal">&times;</span>
-      
       <form id="addDeviceForm">
         <h3>Adicionar Novo Dispositivo</h3>
-        
         <label for="deviceName">Nome:</label>
         <input type="text" id="deviceName" required>
-        
         <label for="deviceType">Tipo:</label>
         <input type="text" id="deviceType" required>
-        
         <label for="deviceIp">Endereço IP:</label>
         <input type="text" id="deviceIp" required>
-        
         <label for="deviceStatus">Status:</label>
         <select id="deviceStatus">
           <option value="Online">Online</option>
           <option value="Offline">Offline</option>
           <option value="Alerta">Alerta</option>
         </select>
-        
         <button type="submit">Salvar Dispositivo</button>
       </form>
     </div>
   </div>
+
 <script type="module">
     import { create } from './js/services/api.js';
 
@@ -355,29 +326,13 @@
     
     const modalOverlay = document.getElementById('deviceModalOverlay');
     const addDeviceForm = document.getElementById('addDeviceForm'); 
-    const deviceTableBody = document.querySelector('.device-list tbody');
 
     const totalDevicesEl = document.getElementById('totalDevices');
     const onlineDevicesEl = document.getElementById('onlineDevices');
     const alertDevicesEl = document.getElementById('alertDevices');
-    const inputPesquisa = document.getElementById('inputPesquisaDispositivo');
-
 
     const openModal = () => modalOverlay.classList.add('modal-visible');
     const closeModal = () => modalOverlay.classList.remove('modal-visible');
-
-    function renderDeviceRow(dispositivo) {
-        const statusClass = `status-${dispositivo.status.toLowerCase()}`;
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${dispositivo.nome}</td>
-            <td>${dispositivo.tipo}</td>
-            <td>${dispositivo.ip}</td>
-            <td class="${statusClass}">${dispositivo.status}</td>
-            <td>${dispositivo.ultimaAtualizacao}</td>
-        `;
-        return row;
-    }
 
     function updateCards(dispositivos) {
         const online = dispositivos.filter(d => d.status === 'Online').length;
@@ -387,23 +342,18 @@
         onlineDevicesEl.textContent = online;
         alertDevicesEl.textContent = alert;
     }
+
     async function loadDevices() {
         try {
             const response = await fetch(API_ENDPOINT);
-            
             if (!response.ok) {
                 throw new Error(`Erro de rede: ${response.status}`);
             }
-
             const dispositivos = await response.json();
-
-            deviceTableBody.innerHTML = ''; 
-            dispositivos.forEach(d => deviceTableBody.appendChild(renderDeviceRow(d)));
-
-            updateCards(dispositivos);
+            updateCards(dispositivos); 
 
         } catch (error) {
-            console.error('Erro ao carregar dispositivos:', error);
+            console.error('Erro ao carregar dados para os cards:', error);
         }
     }
 
@@ -411,14 +361,12 @@
         try {
             await create(ROTA_API, data);
             await loadDevices(); 
-
             closeModal();
             addDeviceForm.reset();
-            alert(`Dispositivo '${data.nome}' adicionado com sucesso!`);
-
+            alert(`Dispositivo '${data.nome}' adicionado!`);
         } catch (error) {
             console.error('Erro ao adicionar dispositivo:', error);
-            alert('Erro ao adicionar dispositivo. Verifique se o json-server está rodando.');
+            alert('Erro ao adicionar dispositivo.');
         }
     }
     
@@ -426,17 +374,6 @@
         const userName = localStorage.getItem('usuarioLogadoNome') || 'Admin';
         const userNameDisplay = document.getElementById('userNameDisplay');
         userNameDisplay.textContent = userName.charAt(0).toUpperCase() + userName.slice(1);
-    }
-
-    function filtrarDispositivos() {
-        const textoFiltro = inputPesquisa.value.toLowerCase();
-        const linhasTabela = deviceTableBody.getElementsByTagName('tr');
-
-        Array.from(linhasTabela).forEach(linha => {
-            const textoLinha = linha.textContent.toLowerCase();
-            const isVisible = textoLinha.includes(textoFiltro);
-            linha.style.display = isVisible ? "" : "none";
-        });
     }
 
     document.getElementById('logoutLinkDispositivos').addEventListener('click', function() {
@@ -456,16 +393,13 @@
       };
       createNewDevice(novoDispositivo);
     });
-    inputPesquisa.addEventListener('keyup', filtrarDispositivos);
 
     toggleSidebarBtn.addEventListener('click', () => {
         dashboard.classList.toggle('sidebar-toggled');
     });
 
-
     document.querySelector('.close-modal').addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (event) => {
-
       if (event.target === modalOverlay) {
         closeModal();
       }
