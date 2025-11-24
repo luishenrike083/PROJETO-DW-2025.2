@@ -36,6 +36,20 @@
     
     h2, h3, h4 { font-weight: 700; margin-top: 0; }
 
+    .btn-toggle-sidebar {
+        background: none;
+        border: none;
+        color: var(--cor-texto-primario);
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0 5px;
+        margin-right: 10px;
+        transition: color 0.3s;
+    }
+    .btn-toggle-sidebar:hover { 
+        color: var(--cor-destaque); 
+    }
+
     .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -60,41 +74,42 @@
 
     /* Sidebar */
     .sidebar {
-      width: 220px;
-      background: var(--cor-fundo-sidebar); 
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-      border-right: 1px solid var(--cor-borda);
-      transition: width 0.3s ease;
-      overflow: hidden; 
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    
-    .dashboard.sidebar-toggled .sidebar { width: 0; padding: 0; border: none; }
+        width: 220px;
+        background: var(--cor-fundo-sidebar); 
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        border-right: 1px solid var(--cor-borda);
+        transition: width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
+        overflow: hidden;
+        white-space: nowrap;
+        }
 
-    .btn-toggle-sidebar {
-        background: none;
-        border: none;
-        color: var(--cor-texto-primario);
-        font-size: 24px;
-        cursor: pointer;
-        padding: 0 5px;
-        margin-right: 10px;
+    .dashboard.sidebar-toggled .sidebar {
+        width: 0;
+        min-width: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
 
-    .sidebar h2 { font-size: 30px; text-align: center; margin-bottom: 20px; color: var(--cor-principal); }
-    .sidebar img { width: 80px; display: block; margin: 0 auto 15px auto; }
+    .sidebar h2 { 
+      font-size: 40px; 
+      text-align: center; 
+      margin-bottom: 20px; 
+      color: var(--cor-principal);
+      text-shadow: 0 0 10px rgba(106, 97, 255, 0.3);
+    }
+    .sidebar img { width: 100px; display: block; margin: 0 auto 20px auto; }
+
     .sidebar ul { list-style: none; }
-    .sidebar ul li { margin: 15px 0; font-size: 18px; }
+    .sidebar ul li { margin: 15px 0; font-size: 20px; }
     .sidebar ul li a {
       color: var(--cor-texto-secundario);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s;
-      display: block;
     }
-    .sidebar ul li a:hover, .sidebar ul li a.active { color: var(--cor-destaque); font-weight: 700; }
+    .sidebar ul li a:hover { color: var(--cor-destaque); text-shadow: 0 0 7px var(--cor-destaque);}
+    .sidebar ul li a.active { color: var(--cor-destaque); font-weight: 700; }
 
     /* Main */
     .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
@@ -109,7 +124,8 @@
       flex-shrink: 0;
     }
     
-    .header-actions-left { display: flex; align-items: center; gap: 20px; }
+    .header .user { color: var(--cor-texto-primario); font-weight: 600;}
+    .header-actions-left { display: flex; align-items: center; gap: 15px;}
 
     .content { padding: 30px; flex: 1; overflow-y: auto; overflow-x: hidden; }
 
@@ -261,7 +277,6 @@
       <div class="header">
         <div class="header-actions-left">
           <button class="btn-toggle-sidebar" id="toggleSidebarBtn">☰</button>
-          
           <div style="display: flex; flex-direction: column;">
               <h3 style="margin: 0; font-size: 1.5rem; color: var(--cor-texto-primario);">Relatórios de Performance</h3>
               <small style="color: var(--cor-texto-secundario);">Período selecionado: <span id="lblPeriodo">30 dias</span></small>
@@ -322,7 +337,7 @@
         <div class="graficos-grid">
             
             <div class="componente-container">
-                <h3>📈 Tendência de Disponibilidade</h3>
+                <h3>Tendência de Disponibilidade</h3>
                 <div class="iframe-container">
                     <iframe 
                         id="graficoSLA"
@@ -333,7 +348,7 @@
             </div>
 
             <div class="componente-container">
-                <h3>🚨 Top Alertas por Dispositivo</h3>
+                <h3>Top Alertas por Dispositivo</h3>
                 <div class="iframe-container">
                 <iframe 
                     src="http://192.168.56.102:3000/d-solo/ad84kr5/problemas-recentes?orgId=1&timezone=browser&theme=dark&panelId=panel-1&__feature.dashboardSceneSolo=true&kiosk&from=now-30d&to=now&refresh=1m" 
@@ -343,7 +358,7 @@
             </div>
 
             <div class="componente-container grafico-full">
-                <h3>🌐 Histórico de Consumo de Rede</h3>
+                <h3>Histórico de Consumo de Rede</h3>
                 <div class="iframe-container">
                     <iframe 
                         id="graficoRede"
@@ -356,7 +371,7 @@
         </div>
 
         <div class="componente-container">
-            <h3>📜 Histórico de Ocorrências</h3>
+            <h3>Histórico de Ocorrências</h3>
             <div class="iframe-container" style="height: 400px;">
                 <iframe 
                     id="graficoHistorico" 
